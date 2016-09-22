@@ -4,30 +4,13 @@
 var path=require('path');//引入路径
 var webpack=require('webpack');
 
-//压缩文件
-var uglifyJsPlugin = new webpack.optimize.UglifyJsPlugin({
-    compress: {
-        warnings: false
-    },
-    output: {
-        comments: false,
-    }
-});
-//使用上面的压缩文件会产生警告，解决警告
-var definePlugin =  new webpack.DefinePlugin({
-    "process.env": {
-        NODE_ENV: JSON.stringify("production")
-    }
-})
-//独立打包css
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports={
     //页面入口文件配置
     entry:{
         'index':[
             './src/js/test.jsx'
         ]
-
     },
     //入口文件输出配置
     output:{
@@ -41,10 +24,9 @@ module.exports={
             {
                 test:/\.scss$/,
                 //loaders: ["style", "css?sourceMap", "sass?sourceMap"],
-                //loader:'style!css!sass?sourcemap',//这两种方式都行，一种是数组，一种是字符串，sourcemap
+                loader:'style!css!sass?sourcemap',//这两种方式都行，一种是数组，一种是字符串，sourcemap
                 include:[path.join(__dirname,'/src/css')],//只转换某个文件里面的
                 exclude:/node_modules/,
-                  loader:ExtractTextPlugin.extract('style', 'css!sass')
             },
             {
                 test:/\.jsx$/,
@@ -67,7 +49,7 @@ module.exports={
         alias:{
             'scss':path.resolve(
                 __dirname,
-                'src/css/test'
+                'src/css/test.scss'
             ),
             'js':path.resolve(
                 __dirname,
@@ -82,9 +64,6 @@ module.exports={
     },
     //插件配置
     plugins: [
-        uglifyJsPlugin,//压缩文件
-        definePlugin,//上面压缩文件会产生警告，这个消除警告
-        new ExtractTextPlugin("../dist/css/[name].css")
 
     ],
     //devtool:'source-map',//它能帮你定位到未压缩的源代码.但它会生成很大的source map文件，所以只建议在开发模式下使用
