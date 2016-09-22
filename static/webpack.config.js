@@ -45,7 +45,7 @@ module.exports={
             {
                 test:/\.jsx$/,
                 //loader:'babel-loader',
-                loader:'babel-loader?presets[]=es2015',//这样的话就可以不要.babelrc的配置文件
+                loader:'babel-loader?presets[]=es2015,presets[]=react',//这样的话就可以不要.babelrc的配置文件
                 include:[path.join(__dirname,'/src/js')],//只转换某个文件里面的
                 exclude:/node_modules/,//排除某个文件的
             },
@@ -81,8 +81,8 @@ module.exports={
     },
     //插件配置
     plugins: [
-        uglifyJsPlugin,//压缩文件
-        definePlugin,//上面压缩文件会产生警告，这个消除警告
+       // uglifyJsPlugin,//压缩文件
+        //definePlugin,//上面压缩文件会产生警告，这个消除警告
     ],
     //devtool:'eval-source-map',//它能帮你定位到未压缩的源代码.但它会生成很大的source map文件，所以只建议在开发模式下使用
     //wathc:true//当配置了Watchmode，每当又文件修改的时候，Webpack都会自动重新build。
